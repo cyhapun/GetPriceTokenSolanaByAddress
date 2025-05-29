@@ -1,84 +1,80 @@
-# Hướng dẫn sử dụng getPriceToken.py
+# Kiểm Tra Giá Token Đa Chuỗi (getPriceToken.py)
 
-## Mục đích
+## Tổng Quan
+Công cụ này giúp bạn kiểm tra giá token trên nhiều mạng blockchain khác nhau thông qua API Moralis. Hỗ trợ cả Solana và các chuỗi tương thích EVM.
 
-Chương trình này giúp bạn tra cứu giá token trên mạng Solana một cách nhanh chóng bằng API Moralis.
+## Tính Năng
+- Hỗ trợ đa chuỗi (Solana, Ethereum, BSC, Polygon, v.v.)
+- Kiểm tra giá theo thời gian thực
+- Danh sách token phổ biến
+- Giao diện thân thiện với người dùng
 
----
+## Yêu Cầu Hệ Thống
+- Python 3.6 trở lên
+- Kết nối Internet
+- API key của Moralis
 
-## Cách sử dụng
+## Hướng Dẫn Cài Đặt
 
-### 1. Cài đặt thư viện cần thiết
-
-Chạy lệnh sau trong terminal/cmd:
-
+### 1. Cài Đặt Thư Viện
+Chạy lệnh sau trong terminal:
 ```bash
-pip install requests
+pip install moralis requests
 ```
-> **Lưu ý:** Không cần cài đặt `json` vì đây là module chuẩn của Python.
 
----
+### 2. Thiết Lập API Moralis
+1. Truy cập [Moralis Admin Panel](https://admin.moralis.com/login)
+2. Tạo tài khoản miễn phí
+3. Vào mục "Web3 APIs"
+4. Sao chép API key
+5. Cập nhật trong file `getPriceToken.py`:
+```python
+API_KEY = "YOUR_API_KEY"  # Thay bằng API key của bạn
+```
 
-### 2. Lấy Moralis API Key
+## Cách Sử Dụng
 
-- Truy cập [https://admin.moralis.com/login](https://admin.moralis.com/login)
-- Đăng ký tài khoản (miễn phí)
-- Sau khi đăng nhập, vào mục **Web3 APIs** để lấy **API Key**
-- Thay thế dòng sau trong file `getPriceToken.py`:
-  ```python
-  API_KEY = "YOUR_API_KEY"
-  ```
-  bằng API Key bạn vừa lấy được, ví dụ:
-  ```python
-  API_KEY = "abc123xyz..."
-  ```
-
----
-
-### 3. Chạy chương trình
-
-Mở terminal/cmd tại thư mục chứa file và chạy:
-
+### 1. Khởi Động
 ```bash
 python getPriceToken.py
 ```
 
----
+### 2. Các Bước Thực Hiện
+1. Chọn mạng blockchain (chain):
+   - Nhấn Enter để mặc định chọn Solana
+   - Hoặc nhập tên chain (eth, bsc, polygon,...)
+2. Nhập địa chỉ token:
+   - Copy từ danh sách có sẵn
+   - Hoặc nhập địa chỉ token bất kỳ
+3. Xem kết quả:
+   - Giá USD hiện tại
+   - Phần trăm thay đổi (đối với chain EVM)
+   - Thời gian cập nhật
 
-### 4. Sử dụng chương trình
+## Danh Sách Chain Hỗ Trợ
+- Solana
+- Ethereum (ETH)
+- Binance Smart Chain (BSC)
+- Polygon
+- Avalanche
+- Fantom
+- Cronos
+- Arbitrum
+- Optimism
+- Base
+- Linea
+- Moonbeam
+- Ronin
+- PulseChain
 
-- Chương trình sẽ hiển thị danh sách các token Solana phổ biến cùng địa chỉ contract.
-- Bạn nhập địa chỉ token muốn tra cứu (có thể copy từ danh sách hoặc nhập địa chỉ khác).
-- Để thoát chương trình, nhấn `Ctrl+C` hoặc nhập `exit`.
-- Kết quả sẽ hiển thị giá USD của token đó cùng ngày giờ hiện tại.
+## Xử Lý Lỗi
+- **API Key không hợp lệ**: Kiểm tra lại API key trong file
+- **Địa chỉ token không tồn tại**: Xác nhận lại địa chỉ token
+- **Lỗi kết nối**: Kiểm tra internet hoặc thử lại sau
+- **Chain không hỗ trợ**: Chọn chain từ danh sách hỗ trợ
 
----
-
-## Ví dụ sử dụng
-
-```
----------------------------- Danh sách Token Solana Phổ Biến ----------------------------
-STT   Tên                      Ký hiệu         Địa chỉ Token
-------------------------------------------------------------------------------------------
-1     Solana                   SOL             So11111111111111111111111111111111111111112
-2     USD Coin                 USDC            EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-...
-------------------------------------------------------------------------------------------
-Hãy nhập địa chỉ token trong mạng Solana mà bạn muốn lấy thông tin (Ctrl+C để thoát): EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-Giá USD: 1.000000000000 | Thời gian: 2024-06-28 15:30:45
-```
-
----
-
-## Lưu ý
-
-- Nếu chưa nhập API Key, chương trình sẽ nhắc bạn đăng ký.
-- Nếu nhập sai địa chỉ token hoặc token không tồn tại, sẽ báo lỗi.
-- Nếu gặp lỗi kết nối, hãy kiểm tra lại Internet hoặc thử lại sau.
-- Có thể nhấn `Ctrl+C` bất cứ lúc nào để thoát chương trình.
-
----
-
-## Liên hệ
-
-Nếu có thắc mắc, vui lòng liên hệ hoặc để lại issue trên GitHub cá nhân của bạn.
+## Liên Hệ & Hỗ Trợ
+Nếu cần hỗ trợ thêm:
+- Tạo issue trên GitHub
+- Gửi email về địa chỉ của bạn
+- Theo dõi các cập nhật mới

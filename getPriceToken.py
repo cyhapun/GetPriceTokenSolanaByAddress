@@ -1,8 +1,9 @@
 import requests
 import json
 import datetime
+from moralis import evm_api
 
-API_KEY = "YOUR_API_KEY"
+API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImJlNDg4YWI4LTI2M2ItNGMwZS05ZGM1LWM2MTQ1ODQ5NzgwYiIsIm9yZ0lkIjoiNDQ5NjgzIiwidXNlcklkIjoiNDYyNjgxIiwidHlwZUlkIjoiMmQ0MjE4MGYtMjg3OC00OGI1LTk2ZTgtYWUyYjBhMjQ5MDZhIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3NDg0Mzk2ODEsImV4cCI6NDkwNDE5OTY4MX0.KiVPXWtGzrCA3evdMFhqbSWu97ZIuMkoswm9jHpn4Dc"
 
 def display_popular_solana_tokens():
     popular_tokens = [
@@ -72,30 +73,99 @@ def display_popular_solana_tokens():
     
     print("-" * 90)
 
-def get_price_token(token_address):
-    url = f"https://solana-gateway.moralis.io/token/mainnet/{token_address}/price"
-    headers = {"Accept": "application/json", "X-API-Key": API_KEY}
+def display_supported_chains():
+    supported_chains = {
+        "Ethereum": "eth",
+        "Polygon": "polygon", 
+        "Binance Smart Chain": "bsc",
+        "Avalanche": "avalanche",
+        "Fantom Opera": "fantom",
+        "Cronos": "cronos",
+        "Arbitrum": "arbitrum", 
+        "Optimism": "optimism",
+        "Base": "base",
+        "Linea": "linea",
+        "Moonbeam": "moonbeam",
+        "Ronin": "ronin",
+        "PulseChain": "pulsechain",
+        "Solana": "solana"
+    }
 
+    print("\n--------------------------------- Danh sách Chain Hỗ Trợ ---------------------------------")
+    print("{:<15} {:<50} {:<55}".format("STT", "Tên Chain", "Chain ID"))
+    print("-" * 90)
+
+    for i, (chain_name, chain_id) in enumerate(supported_chains.items(), 1):
+        print("{:<15} {:<50} {:<55}".format(i, chain_name, chain_id))
+    
+    print("-" * 90)
+
+def get_price_token(token_address):
     if API_KEY == "YOUR_API_KEY":
         print(f"Vui lòng đăng kí API key tại 'https://admin.moralis.com/login'")
         return None
-        
+
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
-        return response.json()
+        if chain.lower() == "solana":
+            url = f"https://solana-gateway.moralis.io/token/mainnet/{token_address}/price"
+            headers = {"Accept": "application/json", "X-API-Key": API_KEY}
+            
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        else:
+            # EVM chains handling
+            chain_params = {
+                "eth": "eth",
+                "polygon": "polygon",
+                "bsc": "bsc",
+                "avalanche": "avalanche",
+                "fantom": "fantom",
+                "cronos": "cronos",
+                "arbitrum": "arbitrum",
+                "optimism": "optimism",
+                "base": "base",
+                "linea": "linea",
+                "moonbeam": "moonbeam",
+                "ronin": "ronin",
+                "pulsechain": "pulsechain"
+            }
+            
+            if chain.lower() not in chain_params:
+                print(f"Chain không được hỗ trợ: {chain}")
+                return None
+                
+            params = {
+                "chain": chain_params[chain.lower()],
+                "include": "percent_change",
+                "address": token_address
+            }
+            
+            result = evm_api.token.get_token_price(
+                api_key=API_KEY,
+                params=params
+            )
+            return result
+
     except requests.exceptions.RequestException as e:
         print(f"Lỗi khi lấy giá token: {e}")
         return None
     except json.JSONDecodeError:
         print("Lỗi giải mã JSON khi lấy giá token.")
         return None
+    except Exception as e:
+        print(f"Lỗi không xác định: {e}")
+        return None
     
 if __name__ == "__main__":
     display_popular_solana_tokens()
+    display_supported_chains()
 
     try:
         while True:
+            chain = input("\nNhập chain ID (solana/eth/polygon/bsc/...), nhấn Enter để mặc định là Solana: ").strip().lower()
+            if not chain:
+                chain = "solana"
             token_address = input("Hãy nhập địa chỉ token trong mạng Solana mà bạn muốn lấy thông tin (Tổ hợp phím Ctrl+C hoặc 'exit' để thoát): ")
             if token_address.strip().lower() == "exit":
                 print("Đã thoát chương trình.")
