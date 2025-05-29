@@ -3,7 +3,7 @@ import json
 import datetime
 from moralis import evm_api
 
-API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImJlNDg4YWI4LTI2M2ItNGMwZS05ZGM1LWM2MTQ1ODQ5NzgwYiIsIm9yZ0lkIjoiNDQ5NjgzIiwidXNlcklkIjoiNDYyNjgxIiwidHlwZUlkIjoiMmQ0MjE4MGYtMjg3OC00OGI1LTk2ZTgtYWUyYjBhMjQ5MDZhIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3NDg0Mzk2ODEsImV4cCI6NDkwNDE5OTY4MX0.KiVPXWtGzrCA3evdMFhqbSWu97ZIuMkoswm9jHpn4Dc"
+API_KEY = "YOUR_API_KEY"
 
 def display_popular_solana_tokens():
     popular_tokens = [
