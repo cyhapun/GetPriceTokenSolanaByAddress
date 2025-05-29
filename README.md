@@ -76,5 +76,4 @@ python getPriceToken.py
 ## Liên Hệ & Hỗ Trợ
 Nếu cần hỗ trợ thêm:
 - Tạo issue trên GitHub
-- Gửi email về địa chỉ của bạn
 - Theo dõi các cập nhật mới
